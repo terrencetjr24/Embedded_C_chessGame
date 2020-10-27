@@ -69,16 +69,19 @@ int playGame(Board* board, Move * currentMove){
                         if (isCheck(board, currentMove->playerColor)){
                             currentMove = undoLastMove(board, currentMove);
                             // reset all the necessary values and game state
-                            destination = promotion = RESET;
+                            source = destination = promotion = RESET;
                             state = waitingForFirst;
+                            free(validMoves);
+                            printf("NOT ALLOWED\nThe desired move would leave you in check\n");
+                            board_print(board);
                         }
                         else{
                             // Reset selectedPiece, source, destination, and promotion to -1
                             selectedPiece = source = destination = promotion = RESET;
                             // Then free the valid move list
                             free(validMoves);
-                            state = checking;
-                            goto checking;
+                            state = waitingForFirst;
+                            winner = checkingWrapper(board, currentMove);
                         }
                     }
                     break;
@@ -98,32 +101,20 @@ int playGame(Board* board, Move * currentMove){
                         currentMove = undoLastMove(board, currentMove);
                         // reset all the necessary values and game state 
                         state = waitingForSecond;
-                        destination = promotion = RESET;
+                        source = destination = promotion = RESET;
+                        free(validMoves);
+                        printf("NOT ALLOWED\nThe desired move would leave you in check\n");
+                        board_print(board);
                     }
                     else{
                         // Reset selectedPiece, source, destination, and promotion to -1
                         selectedPiece = source = destination = promotion = RESET;
                         // Then free the valid move list
                         free(validMoves);
-                        state = checking;
-                        goto checking;
+                        state = waitingForFirst;
+                        winner = checkingWrapper(board, currentMove);
                     }
                     break;
-    // After every move these things will be checked
-checking:
-                    // Looking for checkmate
-                    winner = checkForCheckMate(board, currentMove);
-                    // Looking for stalemate
-                    winner = checkForStaleMate(board, currentMove);
-                    // Looking for castling priveleges
-                    checkForCastlingPriveleges(board);
-                    // Checking for 3 fold repitions
-                    winner = checkForRepetition(currentMove);
-                    // Looking for ...
-
-                    // Resetting state
-                    state = waitingForFirst;
-                    break;  
                 default:
                     printf("invalid state or jumped into checking state too early\n");
             }

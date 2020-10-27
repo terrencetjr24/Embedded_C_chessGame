@@ -1,6 +1,30 @@
 #include "board.h"
 #include "move.h"
 
+/* Wrapper function to check for everything necessary and save recomputation 
+// 
+// -1 = there's been no checkmate
+// 0 = white wins
+// 1 = black wins 
+// 2 = stalemate
+//
+// Returns: winner value
+*/
+int checkingWrapper(Board *board, Move* currentMove){
+    int winner = -1;
+    char isCheck = -1; // 0 = white is in check, 1 = black is in check
+    // Looking for checkmate
+    winner = checkForCheckMate(board, currentMove);
+    // Looking for stalemate
+    winner = checkForStaleMate(board, currentMove);
+    // Looking for castling priveleges
+    checkForCastlingPriveleges(board);
+    // Checking for 3 fold repitions
+    winner = checkForRepetition(currentMove);
+    // Looking for ...
+
+    return -1;
+}
 
 //looking for checkmate
 //lookgng for stalemate
@@ -19,7 +43,7 @@ int checkForCheckMate(Board *board, Move* currentMove){
     return -1;
 }
 
-/* Function for checking if there is a check
+/* Function for checking if there is a check on the checking color
 // 
 // 0 = no check
 // 1 = there is a check on the input color

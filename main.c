@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     int result = 3; //0 = white won; 1 - black won; 2 - tie/stalemate
     
     // Game loop
-    while(1){
+    while(result == 3){
         result = playGame(board, firstMove);
         if (result == 1){
             printf("Black won!!\n");
@@ -37,12 +37,11 @@ int main(int argc, char **argv) {
             printf("Draw game...\n");
             break;
         }
-        else{
-            printf("Something went wrong. Exiting");
-            break;
-        }
     }
 
+    if ((result >= 3) || (result < 0)){
+      printf("Someething went wrong\n");
+    }      
     free(board);
     // Free the moveList (make function for this)
     freeMoves(firstMove);

@@ -4,6 +4,8 @@
 #include "board.h"
 #include "move.h"
 
+int checkingWrapper(Board *board, Move* currentMove);
+
 int checkForCheckMate(Board *board, Move* currentMove);
 int checkForStaleMate(Board* board, Move* currentMove);
 void checkForCastlingPriveleges(Board* board);
