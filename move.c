@@ -59,6 +59,8 @@ int* validPawnMoves(Board* board, Move* lastMove, int location, int * numOfMoves
     int *retMoves;
     *numOfMoves = 0;
 
+    // TODO: for each move need to also ensure that making the move would not reveal a check on the current player's king
+    
     // If the current player is white
     if(COLOR(board->color) == WHITE){
         // if the pawn is on the home row
